@@ -1,6 +1,9 @@
 % Inizializzo le variabili
-L = 5; % Leader
-T = 10; % Targets
+L = 3; % Leader
+T = 50; % Targets
+%K = 1;
+%delta = 0.1;
+%gamma = 0.5;
 global K delta gamma;
 K = 1;
 delta = 0.1;
@@ -10,6 +13,7 @@ gamma = 0.5;
 pos_targets = rand(T, 2) * 3;
 
 % Posizione del leader
+%pos_leader = [1.5, 3.0];
 pos_leader = rand(L,2) * 3;
 
 % Numero di iterazioni
@@ -35,38 +39,35 @@ for t = 1:num_iterations
     %distances = sqrt(sum((pos_targets - pos_leader).^2, 2));
     
     % Calcolo del campo medio Montecarlo
-    for i = 1:T 
-        for l = 1:L
+    for i = 1:T % aggiorno la posizione dei targets
+        for l = 1:L % aggiorno la posizione dei leaders
 
-        % Calcolo delle distanze tra il leader e i-esimo target
-        distances = sqrt(sum((pos_targets - pos_leader(l, :, :)).^2, 2));
+            % Calcolo delle distanze tra il leader e i-esimo target
+            distances = sqrt(sum((pos_targets - pos_leader(l, :)).^2, 2));
 
-        % Eseguo il campionamento di M particelle j1...jM uniformemente
-        sample_indices = randperm(T,M);
+            % Eseguo il campionamento di M particelle j1...jM uniformemente
+            sample_indices = randperm(T,M);
 
-        %Calcolo H¯_alpha(xi)
-        H_mean = mean(H(distances,K,delta,gamma));
+            %Calcolo H¯_alpha(xi)
+            H_mean = mean(H(distances,K,delta,gamma));
         
-        %Calcolo v_bar_i
-        v_bar_i = mean(H(distances, K, delta, gamma));
+            %Calcolo v_bar_i
+            v_bar_i = mean(H(distances, K, delta, gamma));
 
-        %Calcolo il cambiamento di posizione
-        pos_targets(i,:) = pos_targets(i,:) + epsilon*H_mean*v_bar_i;
+            %Calcolo il cambiamento di posizione
+            pos_targets(i,:) = pos_targets(i,:) + epsilon*H_mean*v_bar_i;
 
-        % Aggiorno la posizione del leader l-esimo
-        pos_leader(l, :,:) = pos_leader(l, :,:) + epsilon * H_mean * v_bar_i;
+            % Distanza tra target tra loro
+            %distances_target_i = sqrt(sum((pos_targets - repmat(pos_targets(i,:), T, 1)).^2, 2)); % Cambiato da pos_followers a pos_targets
 
-        % Distanza tra target tra loro
-        %distances_target_i = sqrt(sum((pos_targets - repmat(pos_targets(i,:), T, 1)).^2, 2)); % Cambiato da pos_followers a pos_targets
-
-        % Forza di interazione del target i
-        %forza_interazione_i = sum(H(distances_target_i, K, delta, gamma)) * (pos_targets(i,:) - pos_leader) / (norm(pos_targets(i,:) - pos_leader) + delta); % Cambiato da pos_followers a pos_targets
+            % Forza di interazione del target i
+            %forza_interazione_i = sum(H(distances_target_i, K, delta, gamma)) * (pos_targets(i,:) - pos_leader) / (norm(pos_targets(i,:) - pos_leader) + delta); % Cambiato da pos_followers a pos_targets
         
-        % Aggiorno la posizione del target i
-        %pos_targets(i,:) = pos_targets(i,:) + forza_interazione_i; % Non c'è più la forza di repulsione, poiché non ci sono più follower
+            % Aggiorno la posizione del target i
+            %pos_targets(i,:) = pos_targets(i,:) + forza_interazione_i; % Non c'è più la forza di repulsione, poiché non ci sono più follower
 
-        % Limite della posizione del target all'interno dell'area
-        %pos_targets(i,:) = max(0, min(pos_targets(i,:), 3));
+            % Limite della posizione del target all'interno dell'area
+            %pos_targets(i,:) = max(0, min(pos_targets(i,:), 3));
         end
     end
 
