@@ -1,4 +1,4 @@
-% Inizializzo le variabili
+% Inizializzazione delle variabili
 L = 10; % Numero di leader
 T = 30; % Numero di targets
 K = 1; % Maggiore di 0
@@ -26,9 +26,6 @@ theta = pi/2; % Angolo del cono visivo
 % Simulazione del movimento nel tempo
 figure;
 hold on;
-% Array per memorizzare le traiettorie di leader e targets
-leader_trajectory = zeros(num_iterations, 2);
-follower_trajectory = zeros(num_iterations, T, 2);
 for t = 1:num_iterations
     % Memorizza le posizioni attuali di leader e targets
     leader_trajectory(t, :) = pos_leader;
@@ -79,21 +76,11 @@ for t = 1:num_iterations
     % Aggiorno la posizione del leader
     pos_leader = pos_leader + leader_velocity;
 
-    % Visualizzazione delle posizioni
-    %fill(pos_leader(1)+[-0.1, 0.1, 0.1, -0.1], pos_leader(2)+[-0.1, -0.1, 0.1, 0.1], 'magenta'); % Area colorata per il leader
-    %fill(pos_followers(:,1)+[-0.1, 0.1, 0.1, -0.1], pos_followers(:,2)+[-0.1, -0.1, 0.1, 0.1], 'blue'); % Area colorata per i followers
+    % Visualizzazione delle posizioni aggiornate
     plot(pos_leader(:,1), pos_leader(:,2), 'r-', 'LineWidth', 2);
     plot(pos_followers(:,1), pos_followers(:,2), 'b-', 'LineWidth', 1);
-
     
-    % Imposto gli assi cartesiani
-    xlim([0, 1]);
-    ylim([0, 1]);
-    
-    xlabel('X');
-    ylabel('Y');
-    title(['Interazione ', num2str(t)]);
-    legend('Leader', 'Target');
+    % Pausa per visualizzare l'aggiornamento
     pause(0.5);
 end
 hold off;
@@ -101,9 +88,7 @@ hold off;
 % Visualizzo le traiettorie di leader e targets
 figure;
 hold on;
-% Indico il leader con una linea rossa
 plot3(leader_trajectory(:, 1), leader_trajectory(:, 2), 1:numel(leader_trajectory(:, 1)), 'r-', 'LineWidth', 2);
-% Indico il leader con una linea blu
 for i = 1:T
     plot3(follower_trajectory(:, i, 1), follower_trajectory(:, i, 2), 1:numel(follower_trajectory(:, i, 1)), 'b--', 'LineWidth', 1);
 end
@@ -111,7 +96,6 @@ xlabel('X');
 ylabel('Y');
 zlabel('Time');
 title('Traiettorie di Leader e Targets');
-%legend('Leader', 'Target 1', 'Target 2', 'Target 3');
 view(3);
 hold off;
 
@@ -120,3 +104,5 @@ function force = H(distance, K, delta, gamma)
     % Calcolo la forza di interazione in base alla distanza
     force = K ./ ((delta^2 + distance.^2).^gamma);
 end
+
+%codice ancora da finire
