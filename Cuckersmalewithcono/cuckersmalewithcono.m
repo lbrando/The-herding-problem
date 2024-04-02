@@ -1,5 +1,5 @@
 % Inizializzo le variabili
-L = 5; % Numero di leader
+L = 10; % Numero di leader
 T = 30; % Numero di targets
 K = 1; % Maggiore di 0
 delta = 0.1;
@@ -11,7 +11,7 @@ pos_leader = rand(1, 2); % Posizione casuale per il leader
 leader_velocity = [0.1, 0.05]; % Velocità costante del leader
 
 % Numero di iterazioni
-num_iterations = 50;
+num_iterations = 15;
 
 % Parametri aggiuntivi
 attraction_strength = 0.3; % Riduco la forza di attrazione tra il leader e i targets
@@ -82,8 +82,8 @@ for t = 1:num_iterations
     % Visualizzazione delle posizioni
     %fill(pos_leader(1)+[-0.1, 0.1, 0.1, -0.1], pos_leader(2)+[-0.1, -0.1, 0.1, 0.1], 'magenta'); % Area colorata per il leader
     %fill(pos_followers(:,1)+[-0.1, 0.1, 0.1, -0.1], pos_followers(:,2)+[-0.1, -0.1, 0.1, 0.1], 'blue'); % Area colorata per i followers
-    plot(pos_leader(:,1), pos_leader(:,2), 'r-', 'LineWidth', 2); % Trattino magenta per il leader
-    plot(pos_followers(:,1), pos_followers(:,2), 'b-', 'LineWidth', 1); % Trattino blu per i followers
+    plot(pos_leader(:,1), pos_leader(:,2), 'r-', 'LineWidth', 2);
+    plot(pos_followers(:,1), pos_followers(:,2), 'b-', 'LineWidth', 1);
 
     
     % Imposto gli assi cartesiani
