@@ -101,3 +101,5 @@ function force = H(distance, alpha, delta, gamma)
     % Calcolo la forza di interazione in base alla distanza
     force = 1 ./ ((delta^2 + distance.^2).^gamma);
 end
+
+% complessità di: O(num_iterations * T)
