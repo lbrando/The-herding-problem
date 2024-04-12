@@ -1,12 +1,11 @@
 % Inizializzo le variabili
-L = 3; % Numero di leader
-T = 50; % Numero di targets
-M = 5; % Numero di particelle nel campionamento
-epsilon = 0.1; % Costante di scalatura del tempo
-%global alpha, delta, gamma;
-alpha = 2; % Esponente per la distanza nella funzione di interazione
-delta = 0.1; % Parametro delta
-gamma = 0.5; % Parametro gamma
+L = 3;                   % Numero di leader
+T = 50;                  % Numero di targets
+M = 5;                   % Numero di particelle nel campionamento
+epsilon = 0.1;           % Costante di scalatura del tempo
+alpha = 2;               % Esponente per la distanza nella funzione di interazione
+delta = 0.1;             % Parametro delta
+gamma = 0.5;             % Parametro gamma
 
 % Posizione casuale dei targets
 pos_targets = rand(T, 2) * 3;
@@ -18,8 +17,8 @@ pos_leader = rand(L, 2) * 3;
 num_iterations = 50;
 
 % Parametri aggiuntivi
-attraction_strength = 0.3; % Riduzione della forza di attrazione tra il leader e i follower
-repulsion_strength = 0.1; % Introduzione di una forza di repulsione tra il leader e i follower per evitare che si avvicinino troppo
+attraction_strength = 0.3;        % Riduzione della forza di attrazione tra il leader e i follower
+repulsion_strength = 0.1;         % Introduzione di una forza di repulsione tra il leader e i follower per evitare che si avvicinino troppo
 leader_attraction_strength = 0.1; % Forza di attrazione del leader
 
 % Simulazione del movimento nel tempo
@@ -31,7 +30,7 @@ leader_trajectory = zeros(num_iterations, L, 2);
 target_trajectory = zeros(num_iterations, T, 2);
 
 % Calcolo del contatore di tempo
-Ntot = T * (T - 1) / 2; % Numero totale di coppie di target
+Ntot = T * (T - 1) / 2;            % Numero totale di coppie di target
 Delta_t_c = 2 * epsilon / Ntot;
 
 for t = 1:num_iterations
@@ -41,7 +40,7 @@ for t = 1:num_iterations
 
     % Iterazione sui target
     for i = 1:T % implementazione dell'algoritmo asintotico di Bird I
-        % aggiorna le posizioni dei targets ad ogni interazione del tempo
+        % Aggiorna le posizioni dei targets ad ogni interazione del tempo
         % Calcolo delle distanze tra il target i e tutti gli altri target
         distances = sqrt(sum((pos_targets - pos_targets(i, :)).^2, 2));
 
