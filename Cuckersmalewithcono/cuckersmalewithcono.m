@@ -105,11 +105,11 @@ legend('Leader', 'Follower');
 % Visualizzo le traiettorie di leader e targets
 figure;
 hold on;
-for l = 1:L
+%for l = 1:L
     plot3(leader_trajectory(:, l, 1), leader_trajectory(:, l, 2), 1:numel(leader_trajectory(:, l, 1)), 'r-', 'LineWidth', 2);
-end
+%end
 for t = 1:T
-    plot3(follower_trajectory(:, t, 1), follower_trajectory(:, t, 2), 1:numel(follower_trajectory(:, t, 1)), 'b--', 'LineWidth', 1); % Modifica dello stile della linea per i target
+    plot3(follower_trajectory(:, t, 1), follower_trajectory(:, t, 2), 1:numel(follower_trajectory(:, t, 1)), 'b--', 'LineWidth', 1);
 end
 xlabel('X');
 ylabel('Y');
