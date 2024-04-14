@@ -38,24 +38,20 @@ for t = 1:num_iterations
     leader_trajectory(t, :, :) = pos_leader;
     target_trajectory(t, :, :) = pos_targets;
 
-    % Iterazione sui target
-    for i = 1:T % implementazione dell'algoritmo asintotico di Bird I
-        % Aggiorna le posizioni dei targets ad ogni interazione del tempo
-        % Calcolo delle distanze tra il target i e tutti gli altri target
-        distances = sqrt(sum((pos_targets - pos_targets(i, :)).^2, 2));
+    % Calcolo delle distanze tra tutti i target
+    distances = pdist(pos_targets);
 
-        % Eseguo il campionamento di M particelle j1...jM uniformemente
-        sample_indices = randperm(T, M);
+    % Eseguo il campionamento di M particelle uniformemente
+    sample_indices = randperm(T, M);
 
-        % Calcolo H¯_alpha(xi)
-        H_mean = mean(H(distances(sample_indices), alpha, delta, gamma));
+    % Calcolo H¯_alpha(xi)
+    H_mean = mean(H(distances(sample_indices), alpha, delta, gamma));
 
-        % Calcolo v_bar_i
-        v_bar_i = mean(H(distances(sample_indices), alpha, delta, gamma));
+    % Calcolo v_bar_i
+    v_bar_i = mean(H(distances(sample_indices), alpha, delta, gamma));
 
-        % Calcolo il cambiamento di posizione
-        pos_targets(i,:) = pos_targets(i,:) + epsilon * H_mean * v_bar_i;
-    end
+    % Calcolo il cambiamento di posizione per tutti i target
+    pos_targets = pos_targets + epsilon * H_mean * v_bar_i;
 
     % Aggiorno la posizione del leader
     avg_x = mean(pos_targets(:, 1));
@@ -100,5 +96,3 @@ function force = H(distance, alpha, delta, gamma)
     % Calcolo la forza di interazione in base alla distanza
     force = 1 ./ ((delta^2 + distance.^2).^gamma);
 end
-
-% complessità di: O(num_iterations * T)
