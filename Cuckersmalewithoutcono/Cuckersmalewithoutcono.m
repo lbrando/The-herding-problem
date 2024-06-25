@@ -1,8 +1,18 @@
 % Parametri della simulazione
 L_values = 20:30;                % Intervallo del numero di leader
-T_values = 60:110;               % Intervallo del numero di targets
+T_values = 100:150;               % Intervallo del numero di targets
 alpha_values = 3:0.1:3.5;        % Intervallo dei valori di alpha
 num_iterations = 50;             % Numero di iterazioni per la simulazione
+
+% Definizione delle costanti mancanti
+delta = 1;
+gamma_param = 2;
+epsilon = 0.1;
+buffer_size = 0.5;
+leader_attraction_strength = 0.1;
+repulsion_from_leader_strength = 0.05;
+min_distance_from_com = 0.5;
+repulsion_from_com_strength = 0.1;
 
 % Inizializzazione delle variabili di memorizzazione dei risultati
 results = zeros(length(alpha_values), length(T_values));
@@ -38,7 +48,7 @@ for a_idx = 1:length(alpha_values)
                 for j = 1:T
                     if i ~= j
                         d = norm(pos_targets(i,:) - pos_targets(j,:));
-                        force = H(d, alpha, delta, gamma);
+                        force = H(d, alpha, delta, gamma_param);
                         interaction_forces(i,:) = interaction_forces(i,:) + force * (pos_targets(j,:) - pos_targets(i,:)) / d;
                     end
                 end
@@ -68,7 +78,7 @@ for a_idx = 1:length(alpha_values)
                 dist_to_com = norm(pos_leader(l, :) - center_of_mass);
                 
                 % Se il leader è troppo vicino al centro di massa, applicare una forza di repulsione
-                if dist_to_com < min_distance_from_com
+                if (dist_to_com < min_distance_from_com) && (dist_to_com > 0) % Evitare divisione per zero
                     repulsion_from_com_force = repulsion_from_com_strength * (pos_leader(l, :) - center_of_mass) / dist_to_com;
                     pos_leader(l, :) = pos_leader(l, :) + repulsion_from_com_force;
                 end
@@ -91,7 +101,7 @@ ylabel('Repulsion intensity (\alpha)');
 title('Global Interaction');
 
 % Funzione H
-function force = H(distance, alpha, delta, gamma)
+function force = H(distance, alpha, delta, gamma_param)
     % Calcolo la forza di interazione in base alla distanza
-    force = alpha ./ ((delta^2 + distance.^2).^gamma);
+    force = alpha ./ ((delta^2 + distance.^2).^gamma_param);
 end
