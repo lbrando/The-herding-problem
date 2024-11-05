@@ -1,6 +1,6 @@
 # The Herding Problem
 
-Questo progetto è una simulazione del "problema di raduno" in Matlab, sviluppata per una tesi triennale in Informatica presso l'Università degli Studi di Napoli Federico II. La simulazione è basata su modelli di interazione sociale in cui leader e target si muovono in base a forze di attrazione e repulsione. 
+Questo progetto è una simulazione del "the herding problem" in Matlab, sviluppata per una tesi triennale in Informatica presso l'Università degli Studi di Napoli Federico II. La simulazione è basata su modelli di interazione sociale in cui leader e target si muovono in base a forze di attrazione e repulsione. 
 
 ## Autore
 
